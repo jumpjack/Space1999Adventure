@@ -12,7 +12,7 @@ This repository holds the original source code for Oric, which include raw stuff
 
 The game was [started in 2006 by users "Twilighte" and "Chema" on defence-force.org](https://forum.defence-force.org/viewtopic.php?t=135).
 
-There are 114 rooms in the game.
+There are 114 rooms in the game, created with [map editor "WHITE"](https://www.defence-force.org/ftp/forum/isometric/space1999/):
 
 - The map of the rooms is contained in file xxxx
 - The names of the rooms are listed in  "\Space 1999\Sources\game source\world\space1999.txt.lab"
