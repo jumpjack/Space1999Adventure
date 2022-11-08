@@ -3,7 +3,7 @@
 
 # Space 1999 Adventure
 
-Adventure game based on "[Space 1999](https://en.wikipedia.org/wiki/Space:_1999)" TV series by Gerry and Sylvia Anderson, aired on 1975-1978.
+Adventure game by "[Chema](http://isa.uniovi.es/~chema/)" (Jose Maria Enguita Gonzalez) based on "[Space 1999](https://en.wikipedia.org/wiki/Space:_1999)" TV series by Gerry and Sylvia Anderson, aired on 1975-1978.
 
 Original adventure game was created in 2010 for 8-bit [Oric computers](https://en.wikipedia.org/wiki/Oric):
 1) Windows executables ([English](https://www.defence-force.org/files/space1999-en.zip), [French](https://www.defence-force.org/files/space1999-fr.zip)) (785 KB)
