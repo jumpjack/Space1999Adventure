@@ -10,7 +10,7 @@ Original adventure game was created in 2010 for 8-bit [Oric computers](https://e
 
 This repository holds the original source code for Oric, which include raw stuff (images and maps) which would allow rebuilding the game for any platform. Oric version was build using wcmap.exe and wcgraph.exe . 
 
-The game was [started in 2006 by users "Twilighte" and "Chema" on defence-force.org](https://forum.defence-force.org/viewtopic.php?t=135).
+The game was [started in 2006 by users "Twilighte" and "Chema" on defence-force.org](https://forum.defence-force.org/viewtopic.php?t=135), and written using Windows  tools NOISE (Novel Oric ISometric Engine) and WHITE (World Handling and Interaction with The Environment) by Chema, which you can find [here](http://isa.uniovi.es/~chema/white+noise/intro.htm).
 
 There are 114 rooms in the game, created with [map editor "WHITE"](https://www.defence-force.org/ftp/forum/isometric/space1999/):
 
