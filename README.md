@@ -10,6 +10,8 @@ Original adventure game was created in 2010 for 8-bit [Oric computers](https://e
 
 This repository holds the original source code for Oric, which include raw stuff (images and maps) which would allow rebuilding the game for any platform. Oric version was build using wcmap.exe and wcgraph.exe . 
 
+The game was [started in 2006 by users "Twilighte" and "Chema" on defence-force.org](https://forum.defence-force.org/viewtopic.php?t=135).
+
 There are 114 rooms in the game.
 
 - The map of the rooms is contained in file xxxx
