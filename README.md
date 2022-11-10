@@ -54,6 +54,15 @@ Tiles have various sizes: width is always multiple of 12; height is apparently "
 
 The different widths "confuse" Tiled, which expect all tiles tohave same widths, so images set should be modified to have all tiles of same width = 24, so as to fit in a Tiled map which expects 24x12 tiles.
 
+This Imagemagick commandline doubles the width of an image without stretching it, but just adding empty space:
+
+    convert w12.png  -background transparent -gravity west -extent 24x -format bmp  w24.bmp
+    
+Result:
+
+![immagine](https://user-images.githubusercontent.com/1620953/201090874-8659f457-1eb2-4c30-82d7-c0eef141bd61.png)
+
+
 Some tiles are also made of main image and transparency mask; to get a couple into a single .PNG image with transparency, ImageMagick can be used (in the mask, black is the transparent color.):
 
     convert image.png -alpha on \( +clone -channel a -fx 0 \) +swap mask.png -composite masked.png
