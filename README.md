@@ -17,6 +17,10 @@ This repository holds the original source code for Oric, which include raw stuff
 
 The game was [started in 2006 by users "Twilighte" and "Chema" on defence-force.org](https://forum.defence-force.org/viewtopic.php?t=135), and written using Windows  tools NOISE (Novel Oric ISometric Engine) and WHITE (World Handling and Interaction with The Environment) by Chema, which you can find [here](http://isa.uniovi.es/~chema/white+noise/intro.htm).
 
+# Porting to "Tiled"
+
+## Technical details
+
 There are 114 rooms in the game, created with [map editor "WHITE"](https://www.defence-force.org/ftp/forum/isometric/space1999/):
 
 - The map of the rooms is contained in file xxxx (can't find it yet)
@@ -24,9 +28,46 @@ There are 114 rooms in the game, created with [map editor "WHITE"](https://www.d
 - Eeach room is composed of "tiles" as described in file "\Space 1999\Sources\game source\world\space1999.txt"
 - The names of each tile used to build each room are listed in "\Space 1999\Sources\game source\world\tileset.txt"
 
-Game author stated:
+Game author states:
 
-_A standard block (that uses all the tile space and its height) is a picture of 24x20 (see block.bmp), but you can use much more higher graphics (I don't remember where the limit is, actually), for example for walls. Currently I am using images of 12x38 for walls, with the idea of them being 4 layers in height (8x4=32 logical coordinates). You can notice you don't need to draw the parts that would be occult, as NOISE correctly displays the tile._
+_A standard block (that uses all the tile space and its height) is a picture of 24x20 (see block.bmp), but you can use much more higher graphics (I don't remember where the limit is, actually), for example for walls. Currently I am using images of **12x38** for walls, with the idea of them being 4 layers in height (8x4=32 logical coordinates). You can notice you don't need to draw the parts that would be occult, as NOISE correctly displays the tile._
 
-Probably there's a typo and he meant "12x32" as size for walls.
+Probably there's a typo and he meant "**12x32**" as size for walls.
+
+Tiles have various sizes: width is always multiple of 12; height is apparently "free":
+
+12x17 (w.bmp):
+
+![image](https://user-images.githubusercontent.com/1620953/201062676-6014de36-331e-468e-a322-39154a6d503d.png)
+
+
+12x40 (wall2panel.bmp):
+
+![image](https://user-images.githubusercontent.com/1620953/201062515-54e9717f-5d63-4213-b973-65e4f0e502c1.png)
+
+
+24x17 (stairS.bmp):
+
+![image](https://user-images.githubusercontent.com/1620953/201062328-d5cfd433-7469-44ad-b99c-050d1ad00b2f.png)
+
+
+
+The different widths "confuse" Tiled, which expect all tiles tohave same widths, so images set should be modified to have all tiles of same width = 24, so as to fit in a Tiled map which expects 24x12 tiles.
+
+Some tiles are also made of main image and transparency mask; to get a couple into a single .PNG image with transparency, ImageMagick can be used (in the mask, black is the transparent color.):
+
+    convert image.png -alpha on \( +clone -channel a -fx 0 \) +swap mask.png -composite masked.png
+
+Tiles are stored in /Sources/game source/world/; if an image named "filename.bmp" has a mask, there is a "filename-mask.bmp:
+
+root.bmp:
+
+![image](https://user-images.githubusercontent.com/1620953/201062875-dad32099-752b-46cb-9872-f82b9e5e317e.png)
+
+
+root-mask.bmp:
+
+![image](https://user-images.githubusercontent.com/1620953/201062950-acaf41ec-8e12-49cd-b568-05fb6295fe37.png)
+
+
 
