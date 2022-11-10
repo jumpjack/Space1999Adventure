@@ -7,15 +7,16 @@
 Adventure game by "[Chema](http://isa.uniovi.es/~chema/)" (Jose Maria Enguita Gonzalez) based on "[Space 1999](https://en.wikipedia.org/wiki/Space:_1999)" TV series by Gerry and Sylvia Anderson, aired on 1975-1978.
 
 Original adventure game was created in 2010 for 8-bit [Oric computers](https://en.wikipedia.org/wiki/Oric):
-1) Windows executables ([English](https://www.defence-force.org/files/space1999-en.zip), [French](https://www.defence-force.org/files/space1999-fr.zip)) (785 KB)
+1) Download disk images (.dsk files) for Oricutron emulator here: [English](https://www.defence-force.org/files/space1999-en.zip), [French](https://www.defence-force.org/files/space1999-fr.zip) (785 KB each)
 2) [Official page](https://www.defence-force.org/index.php?page=games&game=space1999)
-3) [Sources on defence-force.org/archive.org](https://web.archive.org/web/20170628070728/http://miniserve.defence-force.org/svn/public/oric/games/Space%201999/)
-4) [Sources on OSDN.net](https://osdn.net/projects/oricsdk/scm/svn/archive/head/public/oric/games/Space%201999/?format=zip)
-5) [Development discussion thread](https://forum.defence-force.org/viewtopic.php?t=135)
+3) [Sources on OSDN.net](https://osdn.net/projects/oricsdk/scm/svn/tree/head/public/oric/games/Space%201999/Sources/)
+4) Oric emulator for Windows ("Oricutron") with Space1999 bundled as a .dsk file : [oricsdk-public_oric_games_Space201999-r1586.zip](https://osdn.net/projects/oricsdk/scm/svn/archive/head/public/oric/games/Space%201999/?format=zip) (3545816 bytes)
+5) Oric emulator for browser, bundled with French version of SPACE 1999: [link](https://torguet.net/oric/)  (click on space1999-fr.dsk)
+6) [Development discussion thread](https://forum.defence-force.org/viewtopic.php?t=135)
 
-This repository holds the original source code for Oric, which include raw stuff (images and maps) which would allow rebuilding the game for any platform. Oric version was build using wcmap.exe and wcgraph.exe . 
+This repository holds the original source code for Oric, which include raw stuff (images and maps) which would allow porting the game to any platform. Oric version was build using wcmap.exe and wcgraph.exe . 
 
-The game was [started in 2006 by users "Twilighte" and "Chema" on defence-force.org](https://forum.defence-force.org/viewtopic.php?t=135), and written using Windows  tools NOISE (Novel Oric ISometric Engine) and WHITE (World Handling and Interaction with The Environment) by Chema, which you can find [here](http://isa.uniovi.es/~chema/white+noise/intro.htm).
+The game was started in 2004 by users "Twilighte" and "Chema", which started [discussing about it on defence-force.org forum in 2006 ](https://forum.defence-force.org/viewtopic.php?t=135), and it waswritten using Windows tools NOISE (Novel Oric ISometric Engine) and WHITE (World Handling and Interaction with The Environment) by Chema, which you can find described [here](http://isa.uniovi.es/~chema/white+noise/intro.htm).
 
 # Porting to "Tiled"
 
@@ -23,7 +24,7 @@ The game was [started in 2006 by users "Twilighte" and "Chema" on defence-force.
 
 There are 114 rooms in the game, created with [map editor "WHITE"](https://www.defence-force.org/ftp/forum/isometric/space1999/):
 
-- The map of the rooms is contained in file xxxx (can't find it yet)
+- The map of the rooms is not contained into a specific file: the world map is inside a 16x16 grid, so going west/east means subtracting/adding 1 to room number, going north/south means subtracting/adding 16; pasing from one level to another requires use/implementation of "elevators"; levels maps are available [here](https://github.com/jumpjack/Space1999Adventure/tree/main/resources)
 - The names of the rooms are listed in  "\Space 1999\Sources\game source\world\space1999.txt.lab"
 - Eeach room is composed of "tiles" as described in file "\Space 1999\Sources\game source\world\space1999.txt"
 - The names of each tile used to build each room are listed in "\Space 1999\Sources\game source\world\tileset.txt"
