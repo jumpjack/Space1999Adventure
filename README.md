@@ -60,7 +60,7 @@ This Imagemagick commandline doubles the width of an image without stretching it
     
 Result:
 
-![immagine](https://user-images.githubusercontent.com/1620953/201090874-8659f457-1eb2-4c30-82d7-c0eef141bd61.png)
+![immagine](https://user-images.githubusercontent.com/1620953/201090954-56e52568-cd73-4430-83cd-b3577c02f244.png)
 
 
 Some tiles are also made of main image and transparency mask; to get a couple into a single .PNG image with transparency, ImageMagick can be used (in the mask, black is the transparent color.):
