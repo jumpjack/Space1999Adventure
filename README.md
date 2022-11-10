@@ -11,6 +11,7 @@ Original adventure game was created in 2010 for 8-bit [Oric computers](https://e
 2) [Official page](https://www.defence-force.org/index.php?page=games&game=space1999)
 3) [Sources on defence-force.org/archive.org](https://web.archive.org/web/20170628070728/http://miniserve.defence-force.org/svn/public/oric/games/Space%201999/)
 4) [Sources on OSDN.net](https://osdn.net/projects/oricsdk/scm/svn/archive/head/public/oric/games/Space%201999/?format=zip)
+5) [Development discussion thread](https://forum.defence-force.org/viewtopic.php?t=135)
 
 This repository holds the original source code for Oric, which include raw stuff (images and maps) which would allow rebuilding the game for any platform. Oric version was build using wcmap.exe and wcgraph.exe . 
 
@@ -18,7 +19,14 @@ The game was [started in 2006 by users "Twilighte" and "Chema" on defence-force.
 
 There are 114 rooms in the game, created with [map editor "WHITE"](https://www.defence-force.org/ftp/forum/isometric/space1999/):
 
-- The map of the rooms is contained in file xxxx
+- The map of the rooms is contained in file xxxx (can't find it yet)
 - The names of the rooms are listed in  "\Space 1999\Sources\game source\world\space1999.txt.lab"
 - Eeach room is composed of "tiles" as described in file "\Space 1999\Sources\game source\world\space1999.txt"
 - The names of each tile used to build each room are listed in "\Space 1999\Sources\game source\world\tileset.txt"
+
+Game author stated:
+
+_A standard block (that uses all the tile space and its height) is a picture of 24x20 (see block.bmp), but you can use much more higher graphics (I don't remember where the limit is, actually), for example for walls. Currently I am using images of 12x38 for walls, with the idea of them being 4 layers in height (8x4=32 logical coordinates). You can notice you don't need to draw the parts that would be occult, as NOISE correctly displays the tile._
+
+Probably there's a typo and he meant "12x32" as size for walls.
+
