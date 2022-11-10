@@ -34,6 +34,8 @@ _A standard block (that uses all the tile space and its height) is a picture of 
 
 Probably there's a typo and he meant "**12x32**" as size for walls.
 
+### Tiles size
+
 Tiles have various sizes: width is always multiple of 12; height is apparently "free":
 
 12x17 (w.bmp):
@@ -62,6 +64,11 @@ Result:
 
 ![immagine](https://user-images.githubusercontent.com/1620953/201090954-56e52568-cd73-4430-83cd-b3577c02f244.png)
 
+To apply to all images in a folder we shall use **mogrify**:
+
+    mogrify  -background transparent -gravity west -extent 24x -format bmp -path . *.png
+
+### Tiles transparency
 
 Some tiles are also made of main image and transparency mask; to get a couple into a single .PNG image with transparency, ImageMagick can be used (in the mask, black is the transparent color.):
 
