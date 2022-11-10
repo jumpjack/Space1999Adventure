@@ -69,5 +69,8 @@ root-mask.bmp:
 
 ![image](https://user-images.githubusercontent.com/1620953/201062950-acaf41ec-8e12-49cd-b568-05fb6295fe37.png)
 
+Result:
+
+![immagine](https://user-images.githubusercontent.com/1620953/201063826-bddb30b5-8263-4e3f-a029-96b37add5524.png)
 
 
