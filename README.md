@@ -121,4 +121,4 @@ Original game sources have some minor bugs which could confuse automatic parsers
     - SURGERY_DOOR1
     - COR_DOOR1
     - PASSCODE
-- Tile "TRANSP_WALL" is used but image files are not available (Room 26, level 0; other rooms at other levels)
+- Tile "TRANSP_WALL" is used but image files are not available (Room 26, level 0; other rooms at other levels); this happens on purpose, because "transparent walls" are areas which cannot be traversed but allow viewing through them; in original developer words: "If a wall is not visible, but it is there (for example south and east walls if no lines in the floor are drawn) the special code (0 OR INVERTED -binary 10000000 and #defined as **TRANSP_WALL**-) is used.
