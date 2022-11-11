@@ -114,5 +114,11 @@ endlocal
 
 ## Bugs
 Original game sources have some minor bugs which could confuse automatic parsers:
-- some stray TAB charactewrs in tileset.txt
-- capital letters in one tile BMP file
+- some stray TAB characters in tileset.txt
+- some capital letters are used in one tile BMP file
+- These tiles are available but never used:
+    - LIFT1
+    - SURGERY_DOOR1
+    - COR_DOOR1
+    - PASSCODE
+- Tile "TRANSP_WALL" is used but image files are not available (Room 26, level 0; other rooms at other levels)
