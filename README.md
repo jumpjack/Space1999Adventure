@@ -111,3 +111,8 @@ for /f "tokens=1,2,3" %%a in (tileset.txt) do (
   )
 endlocal
 ```
+
+## Bugs
+Original game sources have some minor bugs which could confuse automatic parsers:
+- some stray TAB charactewrs in tileset.txt
+- capital letters in one tile BMP file
