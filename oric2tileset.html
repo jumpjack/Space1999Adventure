@@ -5632,6 +5632,7 @@ END
 <br>
 Tileset.txt<br>
 <textarea id="tilesetlist" name="tilesetlist" cols = 60 rows = 5>
+\space1999tiles
 WALL wall2panel.bmp blank.bmp
 RED flatredlight.bmp blank.bmp
 CTRL1 flatcontrol1.bmp	blank.bmp
@@ -5701,414 +5702,433 @@ LAMPBACK lampb.bmp lampb-sh.bmp
 <button onclick="printRoomFile()">Show data for room n.</button>
 <input type="text" id ="userRoomNum" name="userRoomNum" value = 1>
 <br>
-Result:<br>
-<textarea id = "result" name="result" cols = 90 rows =60>
+World:<br>
+<textarea id = "result" name="result" cols = 50 rows =30>
 </textarea><br>
-
+Room:<br>
+<textarea id = "resultRoom" name="resultRoom" cols = 20 rows =10>
+</textarea><br>
 
 <script>
 // debug: to implement loading of files rather than storing inside script
 
-MAP_HEIGHT = 10;
-MAP_WIDTH = 10;
+ROOM_WIDTH = 10;
+ROOM_HEIGHT = 10;
+MAP_WIDTH_ROOMS = 16;
+MAP_HEIGHT_ROOMS = 16;
+MAP_WIDTH = ROOM_WIDTH * MAP_WIDTH_ROOMS;
+MAP_HEIGHT = ROOM_HEIGHT * MAP_HEIGHT_ROOMS
+usedTilesLabels = [];
+usedTilesCount = 0;
+tileErrors = [];
+
 TILESET_FILENAME = "tutte.tsj";
 
-tilesLabels2 = [];
+tilesFilenames = [];
 tileset = document.getElementById("tilesetlist").value.split("\t").join(" "); // remove buggish tabs
 tilesetArr = tileset.split("\n");
-tilesetArr.forEach( (tilerow) => {
+//tilesetArr.forEach( (tilerow) => {
+for (var tileIndex = 1; tileIndex < tilesetArr.length; tileIndex++) { //skip header line
+    tilerow = tilesetArr[tileIndex];
 	if (tilerow != "") {
 		tilerowArr = tilerow.split(" ");
-	    tilesLabels2[tilerowArr[0]] = tilerowArr[1].replace(".bmp",""); 
+		tileLabel = tilerowArr[0];
+		tileFilename = tilerowArr[1].toUpperCase().replace(".BMP",""); // toUpperCase to overrride TRES_SHELVES tile bug
+		tilesFilenames[tileLabel] = tileFilename;
+        usedTilesLabels[tileLabel] = {used: false, name : tileLabel};
 	}
-});
+};//);
 
+console.log("Tiles in tileset:" , tilesetArr.length);
 
 // tileset JSON data taken from Tiled-generated file (mapeditor.org):
 // debug: implement loading from local file
 tileSetOfficial =  [
-        {
-         "id":0,
-         "image":"img\/bathsw.png",
-         "imageheight":20,
-         "imagewidth":24
-        },
-        {
-         "id":1,
-         "image":"img\/benes.png",
-         "imageheight":20,
-         "imagewidth":24
-        },
-        {
-         "id":2,
-         "image":"img\/bigscreenleft.png",
-         "imageheight":40,
-         "imagewidth":24
-        },
-        {
-         "id":3,
-         "image":"img\/bigscreenright.png",
-         "imageheight":40,
-         "imagewidth":24
-        },
-        {
-         "id":4,
-         "image":"img\/centrecolumn.png",
-         "imageheight":14,
-         "imagewidth":24
-        },
-        {
-         "id":5,
-         "image":"img\/compA.png",
-         "imageheight":40,
-         "imagewidth":24
-        },
-        {
-         "id":6,
-         "image":"img\/compB.png",
-         "imageheight":40,
-         "imagewidth":24
-        },
-        {
-         "id":7,
-         "image":"img\/controlunit.png",
-         "imageheight":37,
-         "imagewidth":24
-        },
-        {
-         "id":8,
-         "image":"img\/cordoor.png",
-         "imageheight":32,
-         "imagewidth":24
-        },
-        {
-         "id":9,
-         "image":"img\/cordoor0.png",
-         "imageheight":32,
-         "imagewidth":24
-        },
-        {
-         "id":10,
-         "image":"img\/cordoor1.png",
-         "imageheight":32,
-         "imagewidth":24
-        },
-        {
-         "id":11,
-         "image":"img\/corpanel0.png",
-         "imageheight":32,
-         "imagewidth":24
-        },
-        {
-         "id":12,
-         "image":"img\/corpanel1.png",
-         "imageheight":32,
-         "imagewidth":24
-        },
-        {
-         "id":13,
-         "image":"img\/deskleft.png",
-         "imageheight":24,
-         "imagewidth":24
-        },
-        {
-         "id":14,
-         "image":"img\/deskright.png",
-         "imageheight":24,
-         "imagewidth":24
-        },
-        {
-         "id":15,
-         "image":"img\/drum.png",
-         "imageheight":38,
-         "imagewidth":24
-        },
-        {
-         "id":16,
-         "image":"img\/dshower.png",
-         "imageheight":40,
-         "imagewidth":24
-        },
-        {
-         "id":17,
-         "image":"img\/filingcabinet.png",
-         "imageheight":38,
-         "imagewidth":24
-        },
-        {
-         "id":18,
-         "image":"img\/flatcontrol1.png",
-         "imageheight":40,
-         "imagewidth":24
-        },
-        {
-         "id":19,
-         "image":"img\/flatcontrol2.png",
-         "imageheight":40,
-         "imagewidth":24
-        },
-        {
-         "id":20,
-         "image":"img\/flatredlight.png",
-         "imageheight":40,
-         "imagewidth":24
-        },
-        {
-         "id":21,
-         "image":"img\/foldedtowel.png",
-         "imageheight":20,
-         "imagewidth":24
-        },
-        {
-         "id":22,
-         "image":"img\/glass.png",
-         "imageheight":20,
-         "imagewidth":24
-        },
-        {
-         "id":23,
-         "image":"img\/globe.png",
-         "imageheight":34,
-         "imagewidth":24
-        },
-        {
-         "id":24,
-         "image":"img\/info.png",
-         "imageheight":38,
-         "imagewidth":24
-        },
-        {
-         "id":25,
-         "image":"img\/insetedge.png",
-         "imageheight":39,
-         "imagewidth":24
-        },
-        {
-         "id":26,
-         "image":"img\/insetwall.png",
-         "imageheight":16,
-         "imagewidth":24
-        },
-        {
-         "id":27,
-         "image":"img\/insetwallcorner.png",
-         "imageheight":45,
-         "imagewidth":24
-        },
-        {
-         "id":28,
-         "image":"img\/insetwc1.png",
-         "imageheight":13,
-         "imagewidth":24
-        },
-        {
-         "id":29,
-         "image":"img\/insetwc2.png",
-         "imageheight":17,
-         "imagewidth":24
-        },
-        {
-         "id":30,
-         "image":"img\/insidewall.png",
-         "imageheight":12,
-         "imagewidth":24
-        },
-        {
-         "id":31,
-         "image":"img\/lamp.png",
-         "imageheight":20,
-         "imagewidth":24
-        },
-        {
-         "id":32,
-         "image":"img\/lampb.png",
-         "imageheight":20,
-         "imagewidth":24
-        },
-        {
-         "id":33,
-         "image":"img\/monitor-front.png",
-         "imageheight":19,
-         "imagewidth":24
-        },
-        {
-         "id":34,
-         "image":"img\/passcode1.png",
-         "imageheight":20,
-         "imagewidth":24
-        },
-        {
-         "id":35,
-         "image":"img\/plant.png",
-         "imageheight":28,
-         "imagewidth":24
-        },
-        {
-         "id":36,
-         "image":"img\/plasticchair.png",
-         "imageheight":30,
-         "imagewidth":24
-        },
-        {
-         "id":37,
-         "image":"img\/plasticchairne.png",
-         "imageheight":24,
-         "imagewidth":24
-        },
-        {
-         "id":38,
-         "image":"img\/radsuitlocker.png",
-         "imageheight":38,
-         "imagewidth":24
-        },
-        {
-         "id":39,
-         "image":"img\/research.png",
-         "imageheight":37,
-         "imagewidth":24
-        },
-        {
-         "id":40,
-         "image":"img\/root.png",
-         "imageheight":28,
-         "imagewidth":24
-        },
-        {
-         "id":41,
-         "image":"img\/sidecabinet.png",
-         "imageheight":23,
-         "imagewidth":24
-        },
-        {
-         "id":42,
-         "image":"img\/sofasw.png",
-         "imageheight":18,
-         "imagewidth":24
-        },
-        {
-         "id":43,
-         "image":"img\/Solid.png",
-         "imageheight":20,
-         "imagewidth":24
-        },
-        {
-         "id":44,
-         "image":"img\/stairN.png",
-         "imageheight":20,
-         "imagewidth":24
-        },
-        {
-         "id":45,
-         "image":"img\/stairS.png",
-         "imageheight":17,
-         "imagewidth":24
-        },
-        {
-         "id":46,
-         "image":"img\/storecupboard.png",
-         "imageheight":40,
-         "imagewidth":24
-        },
-        {
-         "id":47,
-         "image":"img\/surgerydoor0.png",
-         "imageheight":38,
-         "imagewidth":24
-        },
-        {
-         "id":48,
-         "image":"img\/surgerydoor1.png",
-         "imageheight":38,
-         "imagewidth":24
-        },
-        {
-         "id":49,
-         "image":"img\/terminal.png",
-         "imageheight":23,
-         "imagewidth":24
-        },
-        {
-         "id":50,
-         "image":"img\/tressleshelves.png",
-         "imageheight":37,
-         "imagewidth":24
-        },
-        {
-         "id":51,
-         "image":"img\/w.png",
-         "imageheight":17,
-         "imagewidth":24
-        },
-        {
-         "id":52,
-         "image":"img\/wall2panel.png",
-         "imageheight":40,
-         "imagewidth":24
-        },
-        {
-         "id":53,
-         "image":"img\/wallchip.png",
-         "imageheight":40,
-         "imagewidth":24
-        },
-        {
-         "id":54,
-         "image":"img\/wallcurve1.png",
-         "imageheight":40,
-         "imagewidth":24
-        },
-        {
-         "id":55,
-         "image":"img\/wallcurve2.png",
-         "imageheight":46,
-         "imagewidth":24
-        },
-        {
-         "id":56,
-         "image":"img\/wallgrill.png",
-         "imageheight":40,
-         "imagewidth":24
-        },
-        {
-         "id":57,
-         "image":"img\/wallhorizpanels0.png",
-         "imageheight":16,
-         "imagewidth":24
-        },
-        {
-         "id":58,
-         "image":"img\/wallpipes.png",
-         "imageheight":40,
-         "imagewidth":24
-        },
-        {
-         "id":59,
-         "image":"img\/wallpipesvert.png",
-         "imageheight":40,
-         "imagewidth":24
-        },
-        {
-         "id":60,
-         "image":"img\/wallshelf.png",
-         "imageheight":40,
-         "imagewidth":24
-        },
-        {
-         "id":61,
-         "image":"img\/wallslope.png",
-         "imageheight":40,
-         "imagewidth":24
-        },
-        {
-         "id":62,
-         "image":"img\/wallvdu.png",
-         "imageheight":40,
-         "imagewidth":24
-        }];
+		{
+		 "id":0,
+		 "image":"img\/bathsw.png",
+		 "imageheight":20,
+		 "imagewidth":24
+		},
+		{
+		 "id":1,
+		 "image":"img\/benes.png",
+		 "imageheight":20,
+		 "imagewidth":24
+		},
+		{
+		 "id":2,
+		 "image":"img\/bigscreenleft.png",
+		 "imageheight":40,
+		 "imagewidth":24
+		},
+		{
+		 "id":3,
+		 "image":"img\/bigscreenright.png",
+		 "imageheight":40,
+		 "imagewidth":24
+		},
+		{
+		 "id":4,
+		 "image":"img\/centrecolumn.png",
+		 "imageheight":14,
+		 "imagewidth":24
+		},
+		{
+		 "id":5,
+		 "image":"img\/compA.png",
+		 "imageheight":40,
+		 "imagewidth":24
+		},
+		{
+		 "id":6,
+		 "image":"img\/compB.png",
+		 "imageheight":40,
+		 "imagewidth":24
+		},
+		{
+		 "id":7,
+		 "image":"img\/controlunit.png",
+		 "imageheight":37,
+		 "imagewidth":24
+		},
+		{
+		 "id":8,
+		 "image":"img\/cordoor.png",
+		 "imageheight":32,
+		 "imagewidth":24
+		},
+		{
+		 "id":9,
+		 "image":"img\/cordoor0.png",
+		 "imageheight":32,
+		 "imagewidth":24
+		},
+		{
+		 "id":10,
+		 "image":"img\/cordoor1.png",
+		 "imageheight":32,
+		 "imagewidth":24
+		},
+		{
+		 "id":11,
+		 "image":"img\/corpanel0.png",
+		 "imageheight":32,
+		 "imagewidth":24
+		},
+		{
+		 "id":12,
+		 "image":"img\/corpanel1.png",
+		 "imageheight":32,
+		 "imagewidth":24
+		},
+		{
+		 "id":13,
+		 "image":"img\/deskleft.png",
+		 "imageheight":24,
+		 "imagewidth":24
+		},
+		{
+		 "id":14,
+		 "image":"img\/deskright.png",
+		 "imageheight":24,
+		 "imagewidth":24
+		},
+		{
+		 "id":15,
+		 "image":"img\/drum.png",
+		 "imageheight":38,
+		 "imagewidth":24
+		},
+		{
+		 "id":16,
+		 "image":"img\/dshower.png",
+		 "imageheight":40,
+		 "imagewidth":24
+		},
+		{
+		 "id":17,
+		 "image":"img\/filingcabinet.png",
+		 "imageheight":38,
+		 "imagewidth":24
+		},
+		{
+		 "id":18,
+		 "image":"img\/flatcontrol1.png",
+		 "imageheight":40,
+		 "imagewidth":24
+		},
+		{
+		 "id":19,
+		 "image":"img\/flatcontrol2.png",
+		 "imageheight":40,
+		 "imagewidth":24
+		},
+		{
+		 "id":20,
+		 "image":"img\/flatredlight.png",
+		 "imageheight":40,
+		 "imagewidth":24
+		},
+		{
+		 "id":21,
+		 "image":"img\/foldedtowel.png",
+		 "imageheight":20,
+		 "imagewidth":24
+		},
+		{
+		 "id":22,
+		 "image":"img\/glass.png",
+		 "imageheight":20,
+		 "imagewidth":24
+		},
+		{
+		 "id":23,
+		 "image":"img\/globe.png",
+		 "imageheight":34,
+		 "imagewidth":24
+		},
+		{
+		 "id":24,
+		 "image":"img\/info.png",
+		 "imageheight":38,
+		 "imagewidth":24
+		},
+		{
+		 "id":25,
+		 "image":"img\/insetedge.png",
+		 "imageheight":39,
+		 "imagewidth":24
+		},
+		{
+		 "id":26,
+		 "image":"img\/insetwall.png",
+		 "imageheight":16,
+		 "imagewidth":24
+		},
+		{
+		 "id":27,
+		 "image":"img\/insetwallcorner.png",
+		 "imageheight":45,
+		 "imagewidth":24
+		},
+		{
+		 "id":28,
+		 "image":"img\/insetwc1.png",
+		 "imageheight":13,
+		 "imagewidth":24
+		},
+		{
+		 "id":29,
+		 "image":"img\/insetwc2.png",
+		 "imageheight":17,
+		 "imagewidth":24
+		},
+		{
+		 "id":30,
+		 "image":"img\/insidewall.png",
+		 "imageheight":12,
+		 "imagewidth":24
+		},
+		{
+		 "id":31,
+		 "image":"img\/lamp.png",
+		 "imageheight":20,
+		 "imagewidth":24
+		},
+		{
+		 "id":32,
+		 "image":"img\/lampb.png",
+		 "imageheight":20,
+		 "imagewidth":24
+		},
+		{
+		 "id":33,
+		 "image":"img\/monitor-front.png",
+		 "imageheight":19,
+		 "imagewidth":24
+		},
+		{
+		 "id":34,
+		 "image":"img\/passcode1.png",
+		 "imageheight":20,
+		 "imagewidth":24
+		},
+		{
+		 "id":35,
+		 "image":"img\/plant.png",
+		 "imageheight":28,
+		 "imagewidth":24
+		},
+		{
+		 "id":36,
+		 "image":"img\/plasticchair.png",
+		 "imageheight":30,
+		 "imagewidth":24
+		},
+		{
+		 "id":37,
+		 "image":"img\/plasticchairne.png",
+		 "imageheight":24,
+		 "imagewidth":24
+		},
+		{
+		 "id":38,
+		 "image":"img\/radsuitlocker.png",
+		 "imageheight":38,
+		 "imagewidth":24
+		},
+		{
+		 "id":39,
+		 "image":"img\/research.png",
+		 "imageheight":37,
+		 "imagewidth":24
+		},
+		{
+		 "id":40,
+		 "image":"img\/root.png",
+		 "imageheight":28,
+		 "imagewidth":24
+		},
+		{
+		 "id":41,
+		 "image":"img\/sidecabinet.png",
+		 "imageheight":23,
+		 "imagewidth":24
+		},
+		{
+		 "id":42,
+		 "image":"img\/sofasw.png",
+		 "imageheight":18,
+		 "imagewidth":24
+		},
+		{
+		 "id":43,
+		 "image":"img\/Solid.png",
+		 "imageheight":20,
+		 "imagewidth":24
+		},
+		{
+		 "id":44,
+		 "image":"img\/stairN.png",
+		 "imageheight":20,
+		 "imagewidth":24
+		},
+		{
+		 "id":45,
+		 "image":"img\/stairS.png",
+		 "imageheight":17,
+		 "imagewidth":24
+		},
+		{
+		 "id":46,
+		 "image":"img\/storecupboard.png",
+		 "imageheight":40,
+		 "imagewidth":24
+		},
+		{
+		 "id":47,
+		 "image":"img\/surgerydoor0.png",
+		 "imageheight":38,
+		 "imagewidth":24
+		},
+		{
+		 "id":48,
+		 "image":"img\/surgerydoor1.png",
+		 "imageheight":38,
+		 "imagewidth":24
+		},
+		{
+		 "id":49,
+		 "image":"img\/terminal.png",
+		 "imageheight":23,
+		 "imagewidth":24
+		},
+		{
+		 "id":50,
+		 "image":"img\/tressleshelves.png",
+		 "imageheight":37,
+		 "imagewidth":24
+		},
+		{
+		 "id":51,
+		 "image":"img\/w.png",
+		 "imageheight":17,
+		 "imagewidth":24
+		},
+		{
+		 "id":52,
+		 "image":"img\/wall2panel.png",
+		 "imageheight":40,
+		 "imagewidth":24
+		},
+		{
+		 "id":53,
+		 "image":"img\/wallchip.png",
+		 "imageheight":40,
+		 "imagewidth":24
+		},
+		{
+		 "id":54,
+		 "image":"img\/wallcurve1.png",
+		 "imageheight":40,
+		 "imagewidth":24
+		},
+		{
+		 "id":55,
+		 "image":"img\/wallcurve2.png",
+		 "imageheight":46,
+		 "imagewidth":24
+		},
+		{
+		 "id":56,
+		 "image":"img\/wallgrill.png",
+		 "imageheight":40,
+		 "imagewidth":24
+		},
+		{
+		 "id":57,
+		 "image":"img\/wallhorizpanels0.png",
+		 "imageheight":16,
+		 "imagewidth":24
+		},
+		{
+		 "id":58,
+		 "image":"img\/wallpipes.png",
+		 "imageheight":40,
+		 "imagewidth":24
+		},
+		{
+		 "id":59,
+		 "image":"img\/wallpipesvert.png",
+		 "imageheight":40,
+		 "imagewidth":24
+		},
+		{
+		 "id":60,
+		 "image":"img\/wallshelf.png",
+		 "imageheight":40,
+		 "imagewidth":24
+		},
+		{
+		 "id":61,
+		 "image":"img\/wallslope.png",
+		 "imageheight":40,
+		 "imagewidth":24
+		},
+		{
+		 "id":62,
+		 "image":"img\/wallvdu.png",
+		 "imageheight":40,
+		 "imagewidth":24
+		}];
 
 offTiles = [];
 tileSetOfficial.forEach((offTile) => {
-	offTiles[offTile.image.replace("img\/","").replace(".png","")] = offTile.id;
+	originalFileName = offTile.image;
+	bareFileName = originalFileName.replace("img\/","").replace(".png",""); // remove path and extension
+	upperFileName = bareFileName.toUpperCase()
+	offTiles[upperFileName] = offTile.id;
 });
 
 
@@ -6117,18 +6137,18 @@ TMJtemplate = '{ "compressionlevel":-1,\n\
  "height":#HEIGHT#,\n\
  "infinite":false,\n\
  "layers":[\n\
-        {\n\
-         "data":#DATA#,\n\
-         "height":10,\n\
-         "id":1,\n\
-         "name":"Livello tile 1",\n\
-         "opacity":1,\n\
-         "type":"tilelayer",\n\
-         "visible":true,\n\
-         "width":10,\n\
-         "x":0,\n\
-         "y":0\n\
-        }],\n\
+		{\n\
+		 "data":#DATA#,\n\
+		 "height":#HEIGHT2#,\n\
+		 "id":1,\n\
+		 "name":"Livello tile 1",\n\
+		 "opacity":1,\n\
+		 "type":"tilelayer",\n\
+		 "visible":true,\n\
+		 "width":#WIDTH2#,\n\
+		 "x":0,\n\
+		 "y":0\n\
+		}],\n\
  "nextlayerid":2,\n\
  "nextobjectid":1,\n\
  "orientation":"isometric",\n\
@@ -6136,10 +6156,10 @@ TMJtemplate = '{ "compressionlevel":-1,\n\
  "tiledversion":"1.9.2",\n\
  "tileheight":12,\n\
  "tilesets":[\n\
-        {\n\
-         "firstgid":1,\n\
-         "source":"#TILESET#"\n\
-        }],\n\
+		{\n\
+		 "firstgid":1,\n\
+		 "source":"#TILESET#"\n\
+		}],\n\
  "tilewidth":24,\n\
  "type":"map",\n\
  "version":"1.9",\n\
@@ -6147,7 +6167,9 @@ TMJtemplate = '{ "compressionlevel":-1,\n\
 }';
 
 TMJ = TMJtemplate.replace("#HEIGHT#",MAP_HEIGHT);
+TMJ = TMJ.replace("#HEIGHT2#",MAP_HEIGHT);
 TMJ = TMJ.replace("#WIDTH#",MAP_WIDTH);
+TMJ = TMJ.replace("#WIDTH2#",MAP_WIDTH);
 TMJ = TMJ.replace("#TILESET#",TILESET_FILENAME);
 
 
@@ -6158,16 +6180,36 @@ function process() {
 	roomsRaw = [];
 	rooms = [];
 	roomArrRaw = myMap.split("ROOM");
-    roomArrRaw.forEach( (roomRaw) => {
+	roomArrRaw.forEach( (roomRaw) => {
 		roomsRaw.push(roomRaw.split("\n"));
 	});
 
-	for (roomRawIndex = 1; roomRawIndex < roomsRaw.length; roomRawIndex++) { // debug
-        roomProcessed = roomsRaw[roomRawIndex];
+		roomMap = [
+		];
+
+		roomMapStr = [
+		];
+
+		for (var Windex = 0; Windex < MAP_WIDTH; Windex++) {
+			mapRowArr = [];
+			mapRowArrStr = [];
+			for (var Hindex = 0; Hindex < MAP_HEIGHT; Hindex++) {
+                mapRowArr.push(0);
+                mapRowArrStr.push("");
+			}
+            roomMap.push(mapRowArr);
+            roomMapStr.push(mapRowArrStr);
+		}
+
+console.log(1);
+
+	for (roomRawIndex = 1; roomRawIndex < roomsRaw.length; roomRawIndex++) { 
+		roomProcessed = roomsRaw[roomRawIndex];
 
 console.log("Processing room ", roomRawIndex);
 
-		roomMap = [
+
+		singleMap = [
 			[0,0,0,0,0,0,0,0,0,0],
 			[0,0,0,0,0,0,0,0,0,0],
 			[0,0,0,0,0,0,0,0,0,0],
@@ -6180,7 +6222,7 @@ console.log("Processing room ", roomRawIndex);
 			[0,0,0,0,0,0,0,0,0,0]
 		];
 
-		roomMapStr = [
+		singleMapStr = [
 			[],
 			[],
 			[],
@@ -6195,45 +6237,79 @@ console.log("Processing room ", roomRawIndex);
 
 
 
-
 		CONV_FACT = Math.pow(2,32)/2 +1; // 10 inv = 2147483659 = CONV_FACT+ID
 
 		finalRoom = {
-			location: {
+			data: {
 				x : -1,
 				y : -1
 			},
+			location: {
+				x : -1,
+				y : -1
+			}/*,
 			map : {
 				layersRaw: [[[[]]]]
-			}
+			}*/
 		}
 
-		roomCords = roomProcessed[0].split(","); // debug: are they really coordinates?!?
-        finalRoom.number = roomCords[0]*1;
-		finalRoom.location.x = roomCords[1]*1;
-		finalRoom.location.y = roomCords[2]*1;
-
+		roomData = roomProcessed[0].split(","); // debug: what are these?
+		roomNumber = roomData[0]*1
+		finalRoom.number = roomNumber;
+		finalRoom.data.x = roomData[1]*1;
+		finalRoom.data.y = roomData[2]*1;
+        roomX = roomNumber%16; roomY = Math.floor(roomNumber/16);
+        finalRoom.location.x = roomX;
+        finalRoom.location.y = roomY;
 		// Process data for the room, line by line
 		for (var rowIndex = 1; rowIndex < roomProcessed.length; rowIndex++) {
 			rowArr = roomProcessed[rowIndex].split(",");
 			if (rowArr.length > 3) {
 				// row format is: X, Y, LAYER, TILENAME|TILEOPTIONS
-				x = rowArr[0]*1;
-				y = rowArr[1]*1;
-				layer = rowArr[2]*1;
+				 x = rowArr[0]*1 + roomX * ROOM_WIDTH;
+				 y = rowArr[1]*1 + roomY * ROOM_HEIGHT;
+				 singleX = rowArr[0]*1;
+				 singleY = rowArr[1]*1;
+				var layer = rowArr[2]*1
 				tileRaw = rowArr[3].split("|");
 				tileName = tileRaw[0];
-				tileInvert=tileRaw[1]; // debug - can be also "SPECIAL"
-				if (layer == 0 ) { // debug: only one layer supported as of now
-					idRaw = offTiles[tilesLabels2[tileName]]; // Determine a preliminary tile id
-					// "Fix" id depending on tile type (normal, invert,...)
-					if (tileInvert) {
-                        id = idRaw + CONV_FACT;
-					} else {
-						id = idRaw + 1;
+                if (!usedTilesLabels[tileName]) {
+                    usedTilesLabels[tileName] = {used: true, name: tileName};
+				}
+                if (!usedTilesLabels[tileName].used) {
+                    usedTilesLabels[tileName] = {
+						used : true,
+	                    name : tileName
 					}
-                    roomMap[y][x] = id; // Store map as numbers, for Tiled
+					usedTilesCount++;
+				};
+				tileInvert=tileRaw[1]; // debug - can be nothing, INVERT or "SPECIAL", which means the tile can be "collided into":
+				// Original comment from developer: "Remember that WHITE will report collisions with every object with the SPECIAL flag set (except if ID is 0)."
+				if (layer == 0 ) { // debug: only one layer supported as of now
+					idRaw = offTiles[tilesFilenames[tileName]]; // Determine a preliminary tile id
+					if ( (!isNaN(idRaw)) && (idRaw != undefined)) {
+						id = idRaw + 1; // Standard tile: add 1 to tile id
+						if (tileInvert == "INVERT") {
+							id = idRaw + CONV_FACT; // Horizontally flipped tile ("INVERTED"): add conversion factor
+						}
+					} else {
+						if (tileName == "TRANSP_WALL") { // Special tile without imagefile
+							id = offTiles[tilesFilenames["WALL"]]; // Debug: TRANSP_WALL to be properly managed
+							if (tileInvert) {
+								id = id + CONV_FACT;
+							} else {
+								id = id + 1;
+							}
+						} else {
+							tileErrors.push({_room: roomNumber, x:x, y:y, layer: layer, tileRaw: rowArr[3], label: tilesFilenames[tileName], official: idRaw});
+							id = -1;
+console.log("Error in room ", roomNumber, ", tile '" , rowArr , "' on ", x,y, singleX, singleY);
+						}
+					}
+					roomMap[y][x] = id; // Store map as numbers, for Tiled
 					roomMapStr[y][x] = tileName; // Store map as strings, for developer...
+					singleMap[singleY][singleX]=id;
+					singleMapStr[singleY][singleX]=tileName;
 				} else {
 				// Manage other layers
 				}
@@ -6241,27 +6317,61 @@ console.log("Processing room ", roomRawIndex);
 			// invalid row, skip
 			}
 		}
-     	finalRoom.mapArr = roomMap;
+	 	finalRoom.mapArrNumbers = roomMap;
+	 	finalRoom.mapArrStrings = roomMapStr;
 
 		// Convert map data into printable string for Tiled .tmj file:
-		mapStr = "[";
-        roomMap.forEach( (mapRow) => {
+		mapStringified = "[";
+		roomMap.forEach( (mapRow) => {
 			mapRow.forEach((cell) => {
-				mapStr += cell + ",";
+				mapStringified += cell + ",";
 			});
-			mapStr += "\n";
+			mapStringified += "\n";
 		});
-		mapStr = mapStr.substr(0, mapStr.length-2);
-		mapStr += "]"
-        finalRoom.map = mapStr; // Store map in room as string.
-		rooms.push(finalRoom);  // Store room in array
+		mapStringified = mapStringified.substr(0, mapStringified.length-2);
+		mapStringified += "]"
+		finalRoom.map = mapStringified; // Store map in room as string.
 
-	};
+		// Convert map data into printable string for Tiled .tmj file:
+		singleMapStringified = "[";
+		singleMap.forEach( (mapRow) => {
+			mapRow.forEach((cell) => {
+				singleMapStringified += cell + ",";
+			});
+			singleMapStringified += "\n";
+		});
+		singleMapStringified = singleMapStringified.substr(0, singleMapStringified.length-2);
+		singleMapStringified += "]"
 
+		rooms.push({
+			location : {
+				x : roomX,
+				y : roomY
+			},
+			number : roomNumber,
+			map : singleMap,
+			mapStr : singleMapStr,
+			mapStringified : singleMapStringified
+		});  // Store room in array
+
+	}; // rooms cycle
+
+	if (tileErrors.length>0) {
+		alert("Errors, see console");
+		console.log(tileErrors);
+	}
+	console.log("Used tiles:", Object.keys(usedTilesLabels).length, usedTilesLabels);
+	for (var index in usedTilesLabels) {
+		if (!usedTilesLabels[index].used) {
+			console.log("Tile '" + usedTilesLabels[index].name  + "' is never used.");
+		}
+	}
+	console.log("Done.");
 }
 
 function printRoomFile() {
-	document.getElementById("result").value = TMJ.replace("#DATA#",rooms[document.getElementById("userRoomNum").value*1].map);
+	document.getElementById("resultRoom").value = TMJ.replace("#DATA#",rooms[document.getElementById("userRoomNum").value*1].map);
+	document.getElementById("result").value = TMJ.replace("#DATA#",finalRoom.map);
 }
 </script>
   </body>
