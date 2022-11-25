@@ -27,6 +27,9 @@ There are 114 rooms in the game, created with [map editor "WHITE"](https://www.d
 - The map of the rooms is not contained into a specific file: the world map is inside a 16x16 grid, so going west/east means subtracting/adding 1 to room number, going north/south means subtracting/adding 16; pasing from one level to another requires use/implementation of "elevators"; images showing levels maps are available [here](https://github.com/jumpjack/Space1999Adventure/tree/main/resources)
 - The names of the rooms are listed in  "[\Space 1999\Sources\game source\world\space1999.txt.lab](https://github.com/jumpjack/Space1999Adventure/blob/main/Sources/game%20source/world/space1999.txt.lab)"
 - Eeach room is composed of "tiles" as described in file "[\Space 1999\Sources\game source\world\space1999.txt](https://github.com/jumpjack/Space1999Adventure/blob/main/Sources/game%20source/world/space1999.txt)"
+    -  Example line: 4,8,0,COR_DOOR|SPECIAL
+    - "INVERT" flag means a tile image has to be flipped horizontally
+    - "SPECIAL" flag means the tile can be walked on, being it a door; all other tiles are blocking, i.e. collision must be enabled on them
 - The names of each tile used to build each room are listed in "[\Space 1999\Sources\game source\world\tileset.txt](https://github.com/jumpjack/Space1999Adventure/blob/main/Sources/game%20source/world/tileset.txt)"
 
 Game author states:
@@ -122,6 +125,143 @@ endlocal
 [This HTML page](https://github.com/jumpjack/Space1999Adventure/blob/main/oric2tileset.html) converts original map from proprietary Oric/S1999 format to Tiled format
 
 
+### Analysis of room 0
+
+Raw data:
+
+```
+0,1,0,WALL|INVERT
+0,2,0,WALL|INVERT
+0,2,2,WINDOW|INVERT
+0,3,0,RED|INVERT
+0,4,0,WALL|INVERT
+0,4,2,WINDOW|INVERT
+0,5,0,RED|INVERT
+0,6,0,WALL|INVERT
+0,6,2,WINDOW|INVERT
+0,7,0,WALL|INVERT
+0,8,0,WALL|INVERT
+1,0,0,WALL
+1,1,0,PLANT|INVERT
+1,7,0,SOFA_SW|INVERT
+1,8,0,SOFA_SW|INVERT
+1,9,0,INSET_CORNER
+2,0,0,WALL
+2,0,2,WINDOW
+2,4,0,INFO
+2,8,0,SOFA_SW|INVERT
+2,9,0,INSET_WALL
+3,0,0,WALL
+3,0,2,WINDOW
+3,1,0,SOFA_SW
+3,9,0,INSETEDGE
+4,0,0,WALL
+4,0,2,WINDOW
+4,1,0,SOFA_SW
+4,3,0,SOFA_SW
+4,4,0,SOFA_SW
+4,4,1,SOFA_SW
+4,5,0,SOFA_SW
+4,8,0,COR_DOOR|SPECIAL
+4,8,3,DOORJAMB
+5,0,0,WALL
+5,0,2,WINDOW
+5,1,0,SOFA_SW
+5,3,0,SOFA_SW
+5,4,0,SOFA_SW
+5,4,1,SOFA_SW
+5,5,0,SOFA_SW
+5,9,0,INSET_CORNER
+6,0,0,WALL
+6,0,2,WINDOW
+6,3,0,SOFA_SW
+6,4,0,SOFA_SW
+6,4,1,SOFA_SW
+6,5,0,SOFA_SW
+6,8,0,SOFA_SW|INVERT
+6,9,0,INSET_WALL
+7,0,0,WALL
+7,8,0,SOFA_SW
+7,9,0,INSET_WALL
+8,0,0,WALL
+8,2,0,COR_DOOR|INVERT|SPECIAL
+8,2,3,DOORJAMB|INVERT
+8,7,0,COR_DOOR|INVERT|SPECIAL
+8,7,3,DOORJAMB|INVERT
+8,9,0,INSET_WALL
+9,1,0,INSETEDGE|INVERT
+9,3,0,INSET_CORNER|INVERT
+9,4,0,INSET_WALL|INVERT
+9,5,0,INSET_WALL|INVERT
+9,6,0,INSETEDGE|INVERT
+9,8,0,INSET_CORNER|INVERT
+```
+
+Only level 0, grouped by column:
+```
+0,1,0,WALL|INVERT
+0,2,0,WALL|INVERT
+0,3,0,RED|INVERT
+0,4,0,WALL|INVERT
+0,5,0,RED|INVERT
+0,6,0,WALL|INVERT
+0,7,0,WALL|INVERT
+0,8,0,WALL|INVERT
+
+1,0,0,WALL
+1,1,0,PLANT|INVERT
+1,7,0,SOFA_SW|INVERT
+1,8,0,SOFA_SW|INVERT
+1,9,0,INSET_CORNER
+
+2,0,0,WALL
+2,4,0,INFO
+2,8,0,SOFA_SW|INVERT
+2,9,0,INSET_WALL
+
+3,0,0,WALL
+3,0,2,WINDOW
+3,1,0,SOFA_SW
+3,9,0,INSETEDGE
+
+4,0,0,WALL
+4,1,0,SOFA_SW
+4,3,0,SOFA_SW
+4,4,0,SOFA_SW
+4,5,0,SOFA_SW
+4,8,0,COR_DOOR|SPECIAL
+4,8,3,DOORJAMB
+
+5,0,0,WALL
+5,1,0,SOFA_SW
+5,3,0,SOFA_SW
+5,4,0,SOFA_SW
+5,5,0,SOFA_SW
+5,9,0,INSET_CORNER
+
+6,0,0,WALL
+6,3,0,SOFA_SW
+6,4,0,SOFA_SW
+6,5,0,SOFA_SW
+6,8,0,SOFA_SW|INVERT
+6,9,0,INSET_WALL
+
+7,0,0,WALL
+7,8,0,SOFA_SW
+7,9,0,INSET_WALL
+
+8,0,0,WALL
+8,2,0,COR_DOOR|INVERT|SPECIAL
+8,7,0,COR_DOOR|INVERT|SPECIAL
+8,9,0,INSET_WALL
+
+9,1,0,INSETEDGE|INVERT
+9,3,0,INSET_CORNER|INVERT
+9,4,0,INSET_WALL|INVERT
+9,5,0,INSET_WALL|INVERT
+9,6,0,INSETEDGE|INVERT
+9,8,0,INSET_CORNER|INVERT
+```
 
 ## Bugs
 Original game sources have some minor bugs which could confuse automatic parsers:
