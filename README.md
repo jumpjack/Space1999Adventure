@@ -24,10 +24,10 @@ The game was started in 2004 by users "[Chema](https://forum.defence-force.org/m
 
 There are 114 rooms in the game, created with [map editor "WHITE"](https://www.defence-force.org/ftp/forum/isometric/space1999/):
 
-- The map of the rooms is not contained into a specific file: the world map is inside a 16x16 grid, so going west/east means subtracting/adding 1 to room number, going north/south means subtracting/adding 16; pasing from one level to another requires use/implementation of "elevators"; levels maps are available [here](https://github.com/jumpjack/Space1999Adventure/tree/main/resources)
-- The names of the rooms are listed in  "\Space 1999\Sources\game source\world\space1999.txt.lab"
-- Eeach room is composed of "tiles" as described in file "\Space 1999\Sources\game source\world\space1999.txt"
-- The names of each tile used to build each room are listed in "\Space 1999\Sources\game source\world\tileset.txt"
+- The map of the rooms is not contained into a specific file: the world map is inside a 16x16 grid, so going west/east means subtracting/adding 1 to room number, going north/south means subtracting/adding 16; pasing from one level to another requires use/implementation of "elevators"; images showing levels maps are available [here](https://github.com/jumpjack/Space1999Adventure/tree/main/resources)
+- The names of the rooms are listed in  "[\Space 1999\Sources\game source\world\space1999.txt.lab](https://github.com/jumpjack/Space1999Adventure/blob/main/Sources/game%20source/world/space1999.txt.lab)"
+- Eeach room is composed of "tiles" as described in file "[\Space 1999\Sources\game source\world\space1999.txt](https://github.com/jumpjack/Space1999Adventure/blob/main/Sources/game%20source/world/space1999.txt)"
+- The names of each tile used to build each room are listed in "[\Space 1999\Sources\game source\world\tileset.txt](https://github.com/jumpjack/Space1999Adventure/blob/main/Sources/game%20source/world/tileset.txt)"
 
 Game author states:
 
@@ -55,7 +55,7 @@ Tiles have various sizes: width is always multiple of 12; height is apparently "
 
 
 
-The different widths "confuse" Tiled, which expect all tiles tohave same widths, so images set should be modified to have all tiles of same width = 24, so as to fit in a Tiled map which expects 24x12 tiles.
+The different widths "confuse" Tiled, which expect all tiles to have same widths, so images set should be modified to have all tiles of same width = 24, so as to fit in a Tiled map which expects 24x12 tiles.
 
 
 ## Conversion
