@@ -16,7 +16,7 @@ Original adventure game was created in 2010 for 8-bit [Oric computers](https://e
 
 This repository holds the original source code for Oric, which include raw stuff (images and maps) which would allow porting the game to any platform. Oric version was build using wcmap.exe and wcgraph.exe . 
 
-The game was started in 2004 by users "Twilighte" and "Chema", which started [discussing about it on defence-force.org forum in 2006 ](https://forum.defence-force.org/viewtopic.php?t=135), and it waswritten using Windows tools NOISE (Novel Oric ISometric Engine) and WHITE (World Handling and Interaction with The Environment) by Chema, which you can find described [here](http://isa.uniovi.es/~chema/white+noise/intro.htm).
+The game was started in 2004 by users "[Chema](https://forum.defence-force.org/memberlist.php?mode=viewprofile&u=21)" (Programming) "[Twilighte](https://forum.defence-force.org/memberlist.php?mode=viewprofile&u=4)" (Graphics) and "[Dbug](https://forum.defence-force.org/memberlist.php?mode=viewprofile&u=2)" (Intro sequence and trailer), which started [discussing about it on defence-force.org forum in 2006 ](https://forum.defence-force.org/viewtopic.php?t=135), and it waswritten using Windows tools NOISE (Novel Oric ISometric Engine) and WHITE (World Handling and Interaction with The Environment) by Chema, which you can find described [here](http://isa.uniovi.es/~chema/white+noise/intro.htm).
 
 # Porting to "Tiled"
 
