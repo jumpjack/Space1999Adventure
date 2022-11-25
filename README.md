@@ -57,6 +57,11 @@ Tiles have various sizes: width is always multiple of 12; height is apparently "
 
 The different widths "confuse" Tiled, which expect all tiles tohave same widths, so images set should be modified to have all tiles of same width = 24, so as to fit in a Tiled map which expects 24x12 tiles.
 
+
+## Conversion
+
+### Converting images
+
 This Imagemagick commandline doubles the width of an image without stretching it, but just adding empty space:
 
     convert w12.png  -background transparent -gravity west -extent 24x -format bmp  w24.bmp
@@ -111,6 +116,12 @@ for /f "tokens=1,2,3" %%a in (tileset.txt) do (
   )
 endlocal
 ```
+
+### Converting game map
+
+[This HTML page](https://github.com/jumpjack/Space1999Adventure/blob/main/oric2tileset.html) converts original map from proprietary Oric/S1999 format to Tiled format
+
+
 
 ## Bugs
 Original game sources have some minor bugs which could confuse automatic parsers:
