@@ -273,3 +273,6 @@ Original game sources have some minor bugs which could confuse automatic parsers
     - COR_DOOR1
     - PASSCODE
 - Tile "TRANSP_WALL" is used but image files are not available (Room 26, level 0; other rooms at other levels); this happens on purpose, because "transparent walls" are areas which cannot be traversed but allow viewing through them; in original developer words: "If a wall is not visible, but it is there (for example south and east walls if no lines in the floor are drawn) the special code (0 OR INVERTED -binary 10000000 and #defined as **TRANSP_WALL**-) is used.
+- The computer... has a bug. "Computer" is made of tiles compA.bmp and compB.bmp, both masked by panelmask.bmp; but panelmask.bmp is actually smaller, so a part of compA.bmp and compB.bmp is not masked, resulting in stray lines in finale image; but these stray lines do not appear in actual game:
+
+![image](https://user-images.githubusercontent.com/1620953/204099421-49535ba2-6d38-4ea3-ad9d-bfad9bbb0708.png)
