@@ -122,7 +122,29 @@ endlocal
 
 ### Converting game map
 
-[This HTML page](https://github.com/jumpjack/Space1999Adventure/blob/main/oric2tileset.html) converts original map from proprietary Oric/S1999 format to Tiled format
+Once all the new images with transparency are available, they can be imported into Tiled "as they are", into a new tileset; then we export such tileset as a .json file, which can be processed by [this HTML page](https://github.com/jumpjack/Space1999Adventure/blob/main/oric2tileset.html) to create a tilemap in Tiled format.
+
+## Summary of the conversion process
+
+Original sources contain these files:
+- **space1999.txt** - tiles used in each room, with this format per each line:
+     - X, Y, Layer, TILENAME | TILEFLAGS
+- **tileset.txt** - filenames associated to tiles, with this format per each line:
+     -  TILENAME filename.bmp maskname.bmp
+
+- Convert all .bmp images to .png images, because .bmp does not support transparency and requires masking, while .png supports transparent color
+- Normalize the size of all images to 24 pixel, because original are sometimes 12 pixel large and other times 24 pixel large, but Tiled require one singole width
+- Merge main .bmp file and mask .bmp file  into one single .png file with transparency
+- Import all .png images as a new tileset in Tiled **(TBW descrizione, screenshots)**
+- Export Tiled tileset as .json file "**s1999tileset.json**"
+
+Now we have 3 files:
+ - space1999.txt
+ - tileset.txt
+ - s1999tileset.json
+
+By merging and processing these files, we can obtain a game map in Tiled format. [oric2tileset.html]https://github.com/jumpjack/Space1999Adventure/blob/main/oric2tileset.html) file is used to do this.
+
 
 
 ### Analysis of room 0
