@@ -51,6 +51,7 @@ Original game sources have some minor bugs which could confuse automatic parsers
     - COR_DOOR1
     - PASSCODE
 - Tile "TRANSP_WALL" is used but image files are not available (Room 26, level 0; other rooms at other levels); this happens on purpose, because "transparent walls" are areas which cannot be traversed but allow viewing through them; in original developer words: "If a wall is not visible, but it is there (for example south and east walls if no lines in the floor are drawn) the special code (0 OR INVERTED -binary 10000000 and #defined as **TRANSP_WALL**-) is used.
+**This is needed for walkable areas above level 0**, which already have borders defined by wall in level 0, so don't need further walls, but still need collisions detection on borders.
 - Missing masks for transparency of Koenig player, only masks for Helen are available.
 - The computer... has a bug. "Computer" is made of tiles compA.bmp and compB.bmp, both masked by panelmask.bmp; but panelmask.bmp is actually smaller, so a part of compA.bmp and compB.bmp is not masked, resulting in stray lines in finale image; but these stray lines do not appear in actual game:
 
