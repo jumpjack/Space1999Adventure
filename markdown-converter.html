@@ -1,0 +1,193 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN">
+<html>
+  <head>
+  <meta http-equiv="content-type" content="text/html; charset=utf-8">
+  <meta name="generator" content="PSPad editor, www.pspad.com">
+  <title>Markdown converter</title>
+  </head>
+  <body>
+  <h2>Markdown multiple files converter to HTML</h2>
+    Please select all .html files obtained with <b>pandoc</b>: <br>
+  <input type="file" id="inpFile" width="100" multiple><br>
+	Status: <span id="status" name="status">-</span><br><br>
+<!--
+<textarea id="input" name="input" rows = 30 cols = 60></textarea><br>
+<button onclick="convert()">Convert</button><br>
+-->
+	<button id="btnSave" name="btnSave" onclick="saveFile(HTMLcontents, 'final.html')")>Save...</button><br>
+<hr>
+This tool is specifically designed for <a href="https://adventuregamestudio.github.io/ags-manual/">Adventure Game Studio manual</a>,
+but should work with any .md file and all associated images.<br>
+To download AGS manual in wiki format from github, use <b>git</b>:<br>
+<pre>git clone https://github.com/my/myrepo.wiki.git</pre>
+You will get the raw .md files. Use <a href="https://pandoc.org">pandoc tool</a> to convert all of them into html files.<br>
+<br>
+<b>Example code for Windows/DOS batch file</b><br>
+Store following code into file <b>convert.bat</b> in same folder containing all .md files, then run the file:<br>
+<pre>
+for /r .\ %%M in (*.md) do (
+   pandoc %%M -o %%~nM.html
+)
+</pre>
+Once the .html files are ready, use this page to load them. Conversion automatically starts once the files are loaded.<br>
+Once conversion is completed, click SAVE to save locally a single .HTML file which will contain all the files, with all internal and external links working correctly.<br>
+<b>Note: you must put the final html in the same folder where you saved .md files.</b><br>
+<!--
+<span id ="spnProcessed" name="spnProcessed"></span><br>
+-->
+
+<script>
+		const regexAnchors = /id="([^"]*?)".*?/gm
+		const regexHeaders = /## .*?<\/p>/gm
+		const regexHREF = /<a\s+(?:[^>]*?\s+)?href="([^"]*)"/gm;
+		const EXTENSION = ".md";
+
+		var myName;
+		var fileContentsUInt8;
+        filesContents = [];
+		singleFile = "";
+		filenames = [];
+
+		const fileSelector = document.getElementById('inpFile');
+		fileSelector.addEventListener('change', (event) => loadFile(event.target.files));
+		console.log("Ready.");
+		document.getElementById("status").innerHTML = "READY.";
+
+
+	function convert(HTMLcontents, bareFileName) {
+		///////////////////////////////////////
+		// You must create in advance an html file per each .md file, using pandoc tool:
+		//
+		// Windows/DOS batch file:
+		// for /r .\ %%M in (*.md) do (
+		//    pandoc %%M -o %%~nM.html
+		// )
+		//
+		///////////////////////////////////////
+
+
+		////// Fix anchors (= destinations)
+		/// from   "<filename>#audiochannelpause"
+		//  to     "concat_<filename>_local_audiochannelpause
+
+		//// Remove dot and add prefix for internal linking:
+		matches = HTMLcontents.match(regexAnchors)                                                                         // id="audiochannel.pause"
+		if (matches) {
+			for (var i = 0; i < matches.length; i++) {
+				var splitAnchor = matches[i].split("=");                                                                   // id="audiochannel.pause"  -->  id, "audiochannel.pause"
+				var anchorWithoutQuotes =  splitAnchor[1].split('"').join('');                                             // "audiochannel.pause"  --> audiochannel.pause
+				var finalAnchor =   'id="concat_' + bareFileName + '_local_' +  anchorWithoutQuotes.replace(".","") + '"'  // id="#concat_<filename>_local_audiochannelpause"
+																														   // this will point to "concat_<filename>_local_audiochannelpause"
+																														   // rather than to "<filename>#audiochannelpause"
+				HTMLcontents = HTMLcontents.replace(matches[i], finalAnchor);
+			}
+		} else {
+		}
+
+
+		////// Fix HREF links (=source links)
+		// Original fomat: xxxxx#yyyyyyy
+		// xxxxx = .md file name without extension
+		// yyyyy = internal anchor of .md file
+		// example: acintro1#game-resolution  is internal link in acintro1.md file
+		//
+		// HTML format for single file containing all .HTML files concatenated:
+		// concat_acintro1_local_game-resolution
+
+		matches =  HTMLcontents.match(regexHREF)
+		if (matches) {
+			for (var i = 0; i < matches.length; i++) {
+				if (matches[i].toUpperCase().indexOf("HTTP") < 0 ) {
+	                var myHref = matches[i].split('"').join('');   // "href=acintro1#game-resolution"  --> href=acintro1#game-resolution
+					splitHref = myHref.split("=");                 // href=acintro1#game-resolution --> href, acintro1#game-resolution
+					splitUrl = splitHref[1].split("#");            // acintro1#game-resolution  -->  acintro1, game-resolution
+					filename = splitUrl[0];                        // acintro1
+					if (splitUrl.length > 1) {
+						target = splitUrl[1];                      // game-resolution
+						fileUrl = filename + ".html";              // acintro1.html
+						anchorUrl = target;                        // game-resolution
+						finalUrl = "#concat_" + filename + "_local_" + anchorUrl;      // concat_acintro1_local_game-resolution
+					} else {
+						finalUrl = "#concat_" + filename;           // concat_acintro1
+					}
+					finalHref = splitHref[0] + '="' + finalUrl + '"';
+					HTMLcontents = HTMLcontents.replace(matches[i], finalHref);
+				} else {
+				}
+			}
+		} else {
+		}
+
+
+		////// Remove all newlines
+		//
+        HTMLcontents = HTMLcontents.split("\n").join(" ");
+
+
+
+		///// Fix all chapter headers: from "## chapter title" to "<h2>Chapter title</h2>
+		//
+		matches = HTMLcontents.match(regexHeaders)
+		if (matches) {
+			for (var i = 0; i < matches.length; i++) {
+				HTMLcontents = HTMLcontents.replace(matches[i], matches[i].replace("##","<h2>")+ "</h2>");
+			}
+		} else {
+		}
+
+
+console.log("File " + bareFileName + " processed.");
+		return HTMLcontents;
+	}
+
+
+	function loadFile(fileHandlers) {
+    	let promises = [];
+		for (fileIndex = 0 ; fileIndex < fileHandlers.length; fileIndex++) {
+//console.log("File to open:" ,fileHandlers[fileIndex]);
+			var myName = fileHandlers[fileIndex].name;
+			var bareName = myName.substr(0,myName.indexOf("."));
+	        let filePromise = new Promise(resolve => {
+	            let reader = new FileReader();
+				reader.readAsArrayBuffer(fileHandlers[fileIndex]); 
+	            reader.onload = () => resolve(reader.result);
+	        });
+	        promises.push(filePromise);
+			filenames.push(bareName);
+		}
+
+		///// Execute only after all files have been loaded:
+	    Promise.all(promises).then(allFiles => {
+			for (var fileIndex = 0; fileIndex < allFiles.length; fileIndex++) {
+				var fileContents = allFiles[fileIndex];
+                var myFileName = filenames[fileIndex];
+				var fileContentsUInt8 = new Uint8Array(fileContents); // Extract from the generic ArrayBuffer an array of Unsigned Integers (0..255)
+				var UTF8decoder = new TextDecoder();
+				var fileContentsASCII = UTF8decoder.decode(fileContentsUInt8); // For char codes <=255, UTF8 and UTF16 decoding is the same
+				
+				fixedFile = convert(fileContentsASCII, myFileName);
+				singleFile += '<span id="concat_' + myFileName + '" name="concat_' + myFileName + '"><span><br>' + fixedFile;
+			}
+
+			HTMLcontents = "<html><body" + singleFile + "</body></html>";
+			console.log("Done.");
+			document.getElementById("status").innerHTML = "Conversion completed.";
+			alert("Done. Now you can click the button to save the file.");
+	    });
+	}
+
+
+	function saveFile(fileContent, filename) {
+		myBlob = new Blob([fileContent]);
+		var url = window.URL.createObjectURL(myBlob);
+		var anchor = document.createElement("a");
+		anchor.href = url;
+		anchor.download = filename;
+		anchor.click();
+		window.URL.revokeObjectURL(url);
+	}
+
+
+</script>
+  </body>
+</html>
