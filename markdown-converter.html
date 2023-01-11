@@ -170,10 +170,12 @@ console.log("File " + bareFileName + " processed.");
 			}
 
 			HTMLcontents = "<html><body" + singleFile + "</body></html>";
+		//	alert("Done. Now you can click the button to save the file.");
+	    }).then(() => {
 			console.log("Done.");
 			document.getElementById("status").innerHTML = "Conversion completed.";
-			alert("Done. Now you can click the button to save the file.");
-	    });
+			alert("done");
+			});
 	}
 
 
