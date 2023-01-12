@@ -1,1 +1,0 @@
-var gamefiles = ['004.ags', 'my_ags_game.ags', 'acsetup.cfg'];
