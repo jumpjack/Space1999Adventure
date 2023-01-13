@@ -88,5 +88,6 @@ The numbers are the "order of appearance" as the tiles are drawn:
 
 Each group of 4 stacked tiles should be then assigned to a single overlay with a single Zorder:
 
-![image](https://user-images.githubusercontent.com/1620953/212275368-18a5eb4d-df07-4f04-a4b3-b8ca50f7e747.png)
+![image](https://user-images.githubusercontent.com/1620953/212279109-8ef241ea-5331-4b0b-970a-66961d6872f1.png)
+
 
